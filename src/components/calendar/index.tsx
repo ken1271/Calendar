@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { mapValues } from 'lodash';
 
 import { DATE, MONTH, YEAR } from '@src/constants/calendar';
 
@@ -9,35 +8,54 @@ import DateContent from './dateContent';
 import MonthContent from './monthContent';
 import YearContent from './yearContent';
 
-const CONTENT_MAPPING = {
-	[DATE]: DateContent,
-	[MONTH]: MonthContent,
-	[YEAR]: YearContent,
-};
-
-const STYLED_TAB_CONTENT_MAPPING = mapValues(
-	CONTENT_MAPPING,
-	component => styled(component)`
-		padding: 0 8px;
-		margin-top: 12px;
-	`,
-);
-
 const CalendarWrapper = styled.div`
 	width: 240px;
 	border: 1px solid #E9E9E9;
 	padding: 8px;
 `;
 
-const Calendar = (): JSX.Element => {
-	const [contentType, setContentType] = useState(DATE);
+const renderContent = ({
+	type, currentDate, selectedDate, selectedMonth, selectedYear, handleSelectDate,
+}) => {
+	switch (type) {
+	case MONTH:
+		return <MonthContent />;
+	case YEAR:
+		return <YearContent />;
+	case DATE:
+	default:
+		return (
+			<DateContent
+				currentDate={currentDate}
+				selectedDate={selectedDate}
+				selectedMonth={selectedMonth}
+				selectedYear={selectedYear}
+				handleSelectDate={handleSelectDate}
+			/>
+		);
+	}
+};
 
-	const Content = STYLED_TAB_CONTENT_MAPPING[contentType];
+const Calendar = (): JSX.Element => {
+	const currentDate = new Date();
+	const [contentType, setContentType] = useState(DATE);
+	const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
+	const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
+	const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
+
+	const handleSelectDate = value => () => { setSelectedDate(value); };
 
 	return (
 		<CalendarWrapper>
 			<Header />
-			<Content />
+			{renderContent({
+				type: contentType,
+				currentDate,
+				selectedDate,
+				selectedMonth,
+				selectedYear,
+				handleSelectDate,
+			})}
 		</CalendarWrapper>
 	);
 };
