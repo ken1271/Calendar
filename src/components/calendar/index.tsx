@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { DATE, MONTH, YEAR } from '@src/constants/calendar';
@@ -14,6 +14,12 @@ const CalendarWrapper = styled.div`
 	padding: 8px;
 `;
 
+const TYPE_SWITCH_MAPPING = {
+	[DATE]: MONTH,
+	[MONTH]: YEAR,
+	[YEAR]: YEAR,
+};
+
 const renderContent = ({
 	type, currentDate, selectedDate, selectedMonth, selectedYear, handleSelectDate, handleSelectMonth, handleSelectYear,
 }) => {
@@ -23,6 +29,7 @@ const renderContent = ({
 			<MonthContent
 				currentDate={currentDate}
 				selectedMonth={selectedMonth}
+				selectedYear={selectedYear}
 				handleSelectMonth={handleSelectMonth}
 			/>
 		);
@@ -50,18 +57,33 @@ const renderContent = ({
 
 const Calendar = (): JSX.Element => {
 	const currentDate = new Date();
-	const [contentType, setContentType] = useState(YEAR);
+	const [contentType, setContentType] = useState(DATE);
 	const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
 	const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
 	const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
 
+	const handleUpdateType = useCallback(
+		type => () => { setContentType(TYPE_SWITCH_MAPPING[type]); },
+		[contentType, selectedMonth, selectedYear],
+	);
 	const handleSelectDate = value => () => { setSelectedDate(value); };
-	const handleSelectMonth = value => () => { setSelectedMonth(value); };
-	const handleSelectYear = value => () => { setSelectedYear(value); };
+	const handleSelectMonth = value => () => {
+		setSelectedMonth(value);
+		setContentType(DATE);
+	};
+	const handleSelectYear = value => () => {
+		setSelectedYear(value);
+		setContentType(MONTH);
+	};
 
 	return (
 		<CalendarWrapper>
-			<Header />
+			<Header
+				type={contentType}
+				selectedMonth={selectedMonth}
+				selectedYear={selectedYear}
+				handleUpdateType={handleUpdateType}
+			/>
 			{renderContent({
 				type: contentType,
 				currentDate,

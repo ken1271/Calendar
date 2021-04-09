@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { chunk } from 'lodash';
 
+import { isThisYear } from '@src/utils/calendar';
+
 const YearWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -75,7 +77,7 @@ const YearContent = ({ className, currentDate, selectedYear, handleSelectYear }:
 						<YearItem
 							key={year}
 							inRange={inRange}
-							isThisYear={year === currentDate.getFullYear()}
+							isThisYear={isThisYear({ currentDate, year })}
 							isSelected={year === selectedYear}
 							onClick={inRange ? handleSelectYear(year) : null}
 						>

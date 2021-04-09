@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { chunk } from 'lodash';
 
+import { isThisMonth } from '@src/utils/calendar';
 import { CALENDAR_MONTHS } from '@src/constants/calendar';
 
 const MonthWrapper = styled.div`
@@ -40,10 +41,13 @@ interface IMonthContent {
 	className?: string;
 	currentDate: Date;
 	selectedMonth: number;
+	selectedYear: number;
 	handleSelectMonth: (value: number) => () => void;
 }
 
-const MonthContent = ({ className, currentDate, selectedMonth, handleSelectMonth }: IMonthContent): JSX.Element => {
+const MonthContent = ({
+	className, currentDate, selectedMonth, selectedYear, handleSelectMonth,
+}: IMonthContent): JSX.Element => {
 	const monthArr = chunk(
 		Object.values(CALENDAR_MONTHS).map((value, index) => ({
 			month: index + 1,
@@ -59,7 +63,7 @@ const MonthContent = ({ className, currentDate, selectedMonth, handleSelectMonth
 					{arr.map(({ month, value }) => (
 						<MonthItem
 							key={value}
-							isThisMonth={month === currentDate.getMonth() + 1}
+							isThisMonth={isThisMonth({ currentDate, month, year: selectedYear })}
 							isSelected={month === selectedMonth}
 							onClick={handleSelectMonth(month)}
 						>

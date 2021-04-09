@@ -1,6 +1,23 @@
 import { DAYS_OF_WEEK, MONTHS_TABLE, CENTURIES_TABLE } from '@src/constants/calendar';
 
 export const isLeapYear = (year: number): boolean => (year % 4 === 0);
+export const isToday = ({ currentDate, date, month, year }: {
+	currentDate: Date;
+	date: number;
+	month: number;
+	year: number;
+}): boolean => isThisMonth({ currentDate, month, year }) && (currentDate.getDate() === date);
+
+export const isThisMonth = ({ currentDate, month, year }: {
+	currentDate: Date;
+	month: number;
+	year: number;
+}): boolean => isThisYear({ currentDate, year }) && ((currentDate.getMonth() + 1) === month);
+
+export const isThisYear = ({ currentDate, year }: {
+	currentDate: Date;
+	year: number;
+}): boolean => currentDate.getFullYear() === year;
 
 export const getNumberOfDay = ({ month, year }: {
 	month: number;

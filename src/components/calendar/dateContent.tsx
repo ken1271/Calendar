@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { chunk } from 'lodash';
 
-import { getNumberOfDay, calculateDay } from '@src/utils/calendar';
+import { getNumberOfDay, calculateDay, isToday } from '@src/utils/calendar';
 import { DAYS_OF_WEEK, CALENDAR_DAYS } from '@src/constants/calendar';
 
 const NUMBER_OF_DATE_CONTENT = 42;
@@ -121,7 +121,7 @@ const DateContent = ({
 						<DateItem
 							key={`date-item-${index}`}
 							isCurrentMonth={isCurrentMonth}
-							isToday={isCurrentMonth && date === currentDate.getDate()}
+							isToday={isToday({ currentDate, date, month: selectedMonth, year: selectedYear })}
 							isSelected={isCurrentMonth && date === selectedDate}
 							onClick={isCurrentMonth ? handleSelectDate(date) : null}
 						>
