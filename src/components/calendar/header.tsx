@@ -7,6 +7,7 @@ import { DATE, MONTH, YEAR, SUPPORT_START_YEAR, SUPPORT_END_YEAR, CALENDAR_MONTH
 const HeaderWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 `;
 
 const HeaderContent = styled.div`
@@ -14,9 +15,12 @@ const HeaderContent = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 0 4px;
+	padding: 4px 8px;
+	border-radius: 4px;
+	margin: 0 8px;
 	font-size: 14px;
 	font-weight: 600;
+	background: #f2f2f2;
 	cursor: pointer;
 `;
 
