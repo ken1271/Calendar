@@ -15,7 +15,7 @@ const CalendarWrapper = styled.div`
 `;
 
 const renderContent = ({
-	type, currentDate, selectedDate, selectedMonth, selectedYear, handleSelectDate, handleSelectMonth,
+	type, currentDate, selectedDate, selectedMonth, selectedYear, handleSelectDate, handleSelectMonth, handleSelectYear,
 }) => {
 	switch (type) {
 	case MONTH:
@@ -27,7 +27,13 @@ const renderContent = ({
 			/>
 		);
 	case YEAR:
-		return <YearContent />;
+		return (
+			<YearContent
+				currentDate={currentDate}
+				selectedYear={selectedYear}
+				handleSelectYear={handleSelectYear}
+			/>
+		);
 	case DATE:
 	default:
 		return (
@@ -44,13 +50,14 @@ const renderContent = ({
 
 const Calendar = (): JSX.Element => {
 	const currentDate = new Date();
-	const [contentType, setContentType] = useState(MONTH);
+	const [contentType, setContentType] = useState(YEAR);
 	const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
 	const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
 	const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
 
 	const handleSelectDate = value => () => { setSelectedDate(value); };
 	const handleSelectMonth = value => () => { setSelectedMonth(value); };
+	const handleSelectYear = value => () => { setSelectedYear(value); };
 
 	return (
 		<CalendarWrapper>
@@ -63,6 +70,7 @@ const Calendar = (): JSX.Element => {
 				selectedYear,
 				handleSelectDate,
 				handleSelectMonth,
+				handleSelectYear,
 			})}
 		</CalendarWrapper>
 	);
