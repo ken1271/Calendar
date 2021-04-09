@@ -14,6 +14,21 @@ export const CALENDAR_DAYS = {
 	Saturday: 'Sa',
 };
 
+export const CALENDAR_MONTHS = {
+	January: 'Jan',
+	February: 'Feb',
+	March: 'Mar',
+	April: 'Apr',
+	May: 'May',
+	June: 'Jun',
+	July: 'Jul',
+	August: 'Aug',
+	September: 'Sep',
+	October: 'Oct',
+	November: 'Nov',
+	December: 'Dec',
+};
+
 // Refer to https://calendars.wikia.org/wiki/Calculating_the_day_of_the_week#Corresponding_months
 export const MONTHS_TABLE = {
 	January: 0, // 6 if leap year
