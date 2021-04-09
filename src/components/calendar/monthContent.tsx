@@ -5,6 +5,9 @@ import { chunk } from 'lodash';
 import { isThisMonth } from '@src/utils/calendar';
 import { CALENDAR_MONTHS } from '@src/constants/calendar';
 
+import { activeStyle, selectedStyle } from '@src/styles/common';
+import { Row, Item } from './common';
+
 const MonthWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -12,29 +15,12 @@ const MonthWrapper = styled.div`
 	margin-top: 12px;
 `;
 
-const MonthRow = styled.div`
-	display: flex;
-	justify-content: space-between;
-
-	&:not(:first-child) {
-		margin-top: 12px;
-	}
-`;
-
-const MonthItem = styled.div`
+const MonthItem = styled(Item)`
 	width: 44px;
 	height: 44px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 14px;
 	cursor: pointer;
-	${props => props.isThisMonth && 'color: #D0021B;'};
-	${props => props.isSelected && `
-		color: #ffffff;
-		background: #D0021B;
-		border-radius: 50%;
-	`};
+	${props => props.isThisMonth && activeStyle};
+	${props => props.isSelected && selectedStyle};
 `;
 
 interface IMonthContent {
@@ -59,7 +45,7 @@ const MonthContent = ({
 	return (
 		<MonthWrapper className={className}>
 			{monthArr.map((arr, index) => (
-				<MonthRow key={`month-row-${index}`}>
+				<Row key={`month-row-${index}`}>
 					{arr.map(({ month, value }) => (
 						<MonthItem
 							key={value}
@@ -70,7 +56,7 @@ const MonthContent = ({
 							{value}
 						</MonthItem>
 					))}
-				</MonthRow>
+				</Row>
 			))}
 		</MonthWrapper>
 	);

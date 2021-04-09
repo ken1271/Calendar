@@ -4,6 +4,9 @@ import { chunk } from 'lodash';
 
 import { isThisYear } from '@src/utils/calendar';
 
+import { disabledStyle, activeStyle, selectedStyle } from '@src/styles/common';
+import { Row, Item } from './common';
+
 const YearWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -11,30 +14,13 @@ const YearWrapper = styled.div`
 	margin-top: 12px;
 `;
 
-const YearRow = styled.div`
-	display: flex;
-	justify-content: space-between;
-
-	&:not(:first-child) {
-		margin-top: 12px;
-	}
-`;
-
-const YearItem = styled.div`
+const YearItem = styled(Item)`
 	width: 44px;
 	height: 44px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 14px;
-	${props => props.inRange && 'cursor: pointer;'};
-	${props => !props.inRange && 'color: #eeeeee;'};
-	${props => props.isThisYear && 'color: #D0021B;'};
-	${props => props.isSelected && `
-		color: #ffffff;
-		background: #D0021B;
-		border-radius: 50%;
-	`};
+	cursor: pointer;
+	${props => !props.inRange && disabledStyle};
+	${props => props.isThisYear && activeStyle};
+	${props => props.isSelected && selectedStyle};
 `;
 
 const getYearArr = startYear => {
@@ -74,7 +60,7 @@ const YearContent = ({
 	return (
 		<YearWrapper className={className}>
 			{yearArr.map((arr, index) => (
-				<YearRow key={`year-row-${index}`}>
+				<Row key={`year-row-${index}`}>
 					{arr.map(({ year, inRange }) => (
 						<YearItem
 							key={year}
@@ -86,7 +72,7 @@ const YearContent = ({
 							{year}
 						</YearItem>
 					))}
-				</YearRow>
+				</Row>
 			))}
 		</YearWrapper>
 	);

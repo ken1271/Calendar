@@ -5,6 +5,9 @@ import { chunk } from 'lodash';
 import { getNumberOfDay, calculateDay, isToday } from '@src/utils/calendar';
 import { DAYS_OF_WEEK, CALENDAR_DAYS } from '@src/constants/calendar';
 
+import { disabledStyle, activeStyle, selectedStyle } from '@src/styles/common';
+import { Row, Item } from './common';
+
 const NUMBER_OF_DATE_CONTENT = 42;
 
 const DateWrapper = styled.div`
@@ -13,40 +16,25 @@ const DateWrapper = styled.div`
 	margin-top: 12px;
 `;
 
-const DateRow = styled.div`
-	display: flex;
-	justify-content: space-between;
-
+const DateRow = styled(Row)`
 	&:not(:first-child) {
 		margin-top: 8px;
 	}
 `;
 
-const Day = styled.div`
+const DayItem = styled(Item)`
 	width: 28px;
 	height: 28px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 14px;
 	font-weight: 600;
 `;
 
-const DateItem = styled.div`
+const DateItem = styled(Item)`
 	width: 28px;
 	height: 28px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 14px;
-	${props => props.isCurrentMonth && 'cursor: pointer;'};
-	${props => !props.isCurrentMonth && 'color: #eeeeee;'};
-	${props => props.isToday && 'color: #D0021B;'};
-	${props => props.isSelected && `
-		color: #ffffff;
-		background: #D0021B;
-		border-radius: 50%;
-	`};
+	cursor: pointer;
+	${props => !props.isCurrentMonth && disabledStyle};
+	${props => props.isToday && activeStyle};
+	${props => props.isSelected && selectedStyle};
 `;
 
 const getDateArr = ({ date, month, year }) => {
@@ -113,7 +101,7 @@ const DateContent = ({
 	return (
 		<DateWrapper className={className}>
 			<DateRow>
-				{Object.values(CALENDAR_DAYS).map(value => <Day key={value}>{value}</Day>)}
+				{Object.values(CALENDAR_DAYS).map(value => <DayItem key={value}>{value}</DayItem>)}
 			</DateRow>
 			{dateArr.map((arr, rowIndex) => (
 				<DateRow key={`date-row-${rowIndex}`}>
