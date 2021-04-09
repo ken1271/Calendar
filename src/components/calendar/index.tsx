@@ -21,7 +21,8 @@ const TYPE_SWITCH_MAPPING = {
 };
 
 const renderContent = ({
-	type, currentDate, selectedDate, selectedMonth, selectedYear, handleSelectDate, handleSelectMonth, handleSelectYear,
+	type, currentDate, selectedDate, selectedMonth, selectedYear,
+	startYear, handleSelectDate, handleSelectMonth, handleSelectYear,
 }) => {
 	switch (type) {
 	case MONTH:
@@ -38,6 +39,7 @@ const renderContent = ({
 			<YearContent
 				currentDate={currentDate}
 				selectedYear={selectedYear}
+				startYear={startYear}
 				handleSelectYear={handleSelectYear}
 			/>
 		);
@@ -61,16 +63,54 @@ const Calendar = (): JSX.Element => {
 	const [selectedDate, setSelectedDate] = useState(currentDate.getDate());
 	const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
 	const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
+	const [startYear, setStartYear] = useState(Math.floor(currentDate.getFullYear() / 10) * 10);
 
 	const handleUpdateType = useCallback(
 		type => () => { setContentType(TYPE_SWITCH_MAPPING[type]); },
 		[contentType, selectedMonth, selectedYear],
 	);
+	const handlePrevClick = useCallback(
+		() => {
+			if (contentType === DATE) {
+				if (selectedMonth === 1) {
+					setSelectedMonth(12);
+					setSelectedYear(prev => prev - 1);
+				} else {
+					setSelectedMonth(prev => prev - 1);
+				}
+			} else if (contentType === MONTH) {
+				setSelectedYear(prev => prev - 1);
+			} else {
+				setStartYear(prev => prev - 10);
+			}
+		},
+		[contentType, selectedMonth],
+	);
+	const handleNextClick = useCallback(
+		() => {
+			if (contentType === DATE) {
+				if (selectedMonth === 12) {
+					setSelectedMonth(1);
+					setSelectedYear(prev => prev + 1);
+				} else {
+					setSelectedMonth(prev => prev + 1);
+				}
+			} else if (contentType === MONTH) {
+				setSelectedYear(prev => prev + 1);
+			} else {
+				setStartYear(prev => prev + 10);
+			}
+		},
+		[contentType, selectedMonth],
+	);
 	const handleSelectDate = value => () => { setSelectedDate(value); };
-	const handleSelectMonth = value => () => {
-		setSelectedMonth(value);
-		setContentType(DATE);
-	};
+	const handleSelectMonth = useCallback(
+		value => () => {
+			setSelectedMonth(value);
+			setContentType(DATE);
+		},
+		[],
+	);
 	const handleSelectYear = value => () => {
 		setSelectedYear(value);
 		setContentType(MONTH);
@@ -80,9 +120,12 @@ const Calendar = (): JSX.Element => {
 		<CalendarWrapper>
 			<Header
 				type={contentType}
+				startYear={startYear}
 				selectedMonth={selectedMonth}
 				selectedYear={selectedYear}
 				handleUpdateType={handleUpdateType}
+				handlePrevClick={handlePrevClick}
+				handleNextClick={handleNextClick}
 			/>
 			{renderContent({
 				type: contentType,
@@ -90,6 +133,7 @@ const Calendar = (): JSX.Element => {
 				selectedDate,
 				selectedMonth,
 				selectedYear,
+				startYear,
 				handleSelectDate,
 				handleSelectMonth,
 				handleSelectYear,

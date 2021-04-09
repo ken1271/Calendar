@@ -76,4 +76,4 @@ const MonthContent = ({
 	);
 };
 
-export default MonthContent;
+export default React.memo(MonthContent);

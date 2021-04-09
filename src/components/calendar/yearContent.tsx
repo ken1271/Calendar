@@ -37,8 +37,7 @@ const YearItem = styled.div`
 	`};
 `;
 
-const getYearArr = year => {
-	const startYear = Math.floor(year / 10) * 10;
+const getYearArr = startYear => {
 	const yearArr = [{
 		year: startYear - 1,
 		inRange: false,
@@ -63,11 +62,14 @@ interface IYearContent {
 	className?: string;
 	currentDate: Date;
 	selectedYear: number;
+	startYear: number;
 	handleSelectYear: (value: number) => () => void;
 }
 
-const YearContent = ({ className, currentDate, selectedYear, handleSelectYear }: IYearContent): JSX.Element => {
-	const yearArr = getYearArr(selectedYear);
+const YearContent = ({
+	className, currentDate, selectedYear, startYear, handleSelectYear,
+}: IYearContent): JSX.Element => {
+	const yearArr = getYearArr(startYear);
 
 	return (
 		<YearWrapper className={className}>

@@ -19,19 +19,21 @@ const HeaderContent = styled.div`
 	font-weight: 600;
 `;
 
-const ArrowRightIcon = styled(ArrowLeftIcon)`
-	transform: rotate(180deg);
+const StyledArrowLeft = styled(ArrowLeftIcon)`
+	cursor: pointer;
 `;
 
-const renderContent = ({ type, month, year }) => {
+const StyledArrowRight = styled(ArrowLeftIcon)`
+	transform: rotate(180deg);
+	cursor: pointer;
+`;
+
+const renderContent = ({ type, startYear, month, year }) => {
 	switch (type) {
 	case MONTH:
 		return year;
-	case YEAR: {
-		const startYear = Math.floor(year / 10) * 10;
-
+	case YEAR:
 		return `${startYear} - ${startYear + 9}`;
-	}
 	case DATE:
 	default:
 		return `${Object.values(CALENDAR_MONTHS)[month - 1]} ${year}`;
@@ -40,18 +42,23 @@ const renderContent = ({ type, month, year }) => {
 
 interface IHeader {
 	type: string;
+	startYear: number;
 	selectedMonth: number;
 	selectedYear: number;
 	handleUpdateType: (type: string) => () => void;
+	handlePrevClick: () => void;
+	handleNextClick: () => void;
 }
 
-const Header = ({ type, selectedMonth, selectedYear, handleUpdateType }: IHeader): JSX.Element => (
+const Header = ({
+	type, startYear, selectedMonth, selectedYear, handleUpdateType, handlePrevClick, handleNextClick,
+}: IHeader): JSX.Element => (
 	<HeaderWrapper>
-		<ArrowLeftIcon />
+		<StyledArrowLeft onClick={handlePrevClick} />
 		<HeaderContent onClick={handleUpdateType(type)}>
-			{renderContent({ type, month: selectedMonth, year: selectedYear })}
+			{renderContent({ type, startYear, month: selectedMonth, year: selectedYear })}
 		</HeaderContent>
-		<ArrowRightIcon />
+		<StyledArrowRight onClick={handleNextClick} />
 	</HeaderWrapper>
 );
 
