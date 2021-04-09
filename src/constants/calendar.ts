@@ -4,6 +4,9 @@ export const YEAR = 'YEAR';
 
 export const DAYS_OF_WEEK = 7;
 
+export const SUPPORT_START_YEAR = 1700;
+export const SUPPORT_END_YEAR = 2199;
+
 export const CALENDAR_DAYS = {
 	Sunday: 'Su',
 	Monday: 'Mo',

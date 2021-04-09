@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ArrowLeftIcon } from '@src/components/common/icon';
-import { DATE, MONTH, YEAR, CALENDAR_MONTHS } from '@src/constants/calendar';
+import { DATE, MONTH, YEAR, SUPPORT_START_YEAR, SUPPORT_END_YEAR, CALENDAR_MONTHS } from '@src/constants/calendar';
 
 const HeaderWrapper = styled.div`
 	display: flex;
@@ -17,15 +17,18 @@ const HeaderContent = styled.div`
 	margin: 0 4px;
 	font-size: 14px;
 	font-weight: 600;
+	cursor: pointer;
 `;
 
 const StyledArrowLeft = styled(ArrowLeftIcon)`
-	cursor: pointer;
+	cursor: ${props => (props.disabled ? 'unset' : 'pointer')};
+	opacity: ${props => (props.disabled ? '0.2' : 'unset')};
 `;
 
 const StyledArrowRight = styled(ArrowLeftIcon)`
 	transform: rotate(180deg);
-	cursor: pointer;
+	cursor: ${props => (props.disabled ? 'unset' : 'pointer')};
+	opacity: ${props => (props.disabled ? '0.2' : 'unset')};
 `;
 
 const renderContent = ({ type, startYear, month, year }) => {
@@ -52,14 +55,25 @@ interface IHeader {
 
 const Header = ({
 	type, startYear, selectedMonth, selectedYear, handleUpdateType, handlePrevClick, handleNextClick,
-}: IHeader): JSX.Element => (
-	<HeaderWrapper>
-		<StyledArrowLeft onClick={handlePrevClick} />
-		<HeaderContent onClick={handleUpdateType(type)}>
-			{renderContent({ type, startYear, month: selectedMonth, year: selectedYear })}
-		</HeaderContent>
-		<StyledArrowRight onClick={handleNextClick} />
-	</HeaderWrapper>
-);
+}: IHeader): JSX.Element => {
+	const disabledLeft = (
+		(selectedYear === SUPPORT_START_YEAR) && (
+			(type === MONTH) || ((type === DATE) && (selectedMonth === 1))
+		)) || ((type === YEAR) && (startYear === SUPPORT_START_YEAR));
+	const disabledRight = (
+		(selectedYear === SUPPORT_END_YEAR) && (
+			(type === MONTH) || ((type === DATE) && (selectedMonth === 12))
+		)) || ((type === YEAR) && (startYear === SUPPORT_END_YEAR - 9));
+
+	return (
+		<HeaderWrapper>
+			<StyledArrowLeft disabled={disabledLeft} onClick={disabledLeft ? null : handlePrevClick} />
+			<HeaderContent onClick={handleUpdateType(type)}>
+				{renderContent({ type, startYear, month: selectedMonth, year: selectedYear })}
+			</HeaderContent>
+			<StyledArrowRight disabled={disabledRight} onClick={disabledRight ? null : handleNextClick} />
+		</HeaderWrapper>
+	);
+};
 
 export default React.memo(Header);
