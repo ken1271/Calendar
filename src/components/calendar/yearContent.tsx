@@ -20,7 +20,7 @@ const YearItem = styled(Item)`
 	cursor: pointer;
 	${props => !props.inRange && disabledStyle};
 	${props => props.isThisYear && activeStyle};
-	${props => props.isSelected && selectedStyle};
+	${props => props.isSelected && props.inRange && selectedStyle};
 `;
 
 const getYearArr = startYear => {
