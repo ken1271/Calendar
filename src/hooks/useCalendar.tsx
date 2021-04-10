@@ -40,36 +40,50 @@ const useCalendar = (): IUseCalendar => {
 		() => {
 			if (contentType === DATE) {
 				if (selectedMonth === 1) {
+					if ((selectedYear % 10) === 0) {
+						setStartYear(prev => prev - 10);
+					}
 					setSelectedMonth(12);
 					setSelectedYear(prev => prev - 1);
 				} else {
 					setSelectedMonth(prev => prev - 1);
 				}
 			} else if (contentType === MONTH) {
+				if ((selectedYear % 10) === 0) {
+					setStartYear(prev => prev - 10);
+				}
+
 				setSelectedYear(prev => prev - 1);
 			} else {
 				setStartYear(prev => prev - 10);
 			}
 		},
-		[contentType, selectedMonth],
+		[contentType, selectedMonth, selectedYear],
 	);
 
 	const handleNextClick = useCallback(
 		() => {
 			if (contentType === DATE) {
 				if (selectedMonth === 12) {
+					if ((selectedYear % 10) === 9) {
+						setStartYear(prev => prev + 10);
+					}
 					setSelectedMonth(1);
 					setSelectedYear(prev => prev + 1);
 				} else {
 					setSelectedMonth(prev => prev + 1);
 				}
 			} else if (contentType === MONTH) {
+				if ((selectedYear % 10) === 9) {
+					setStartYear(prev => prev + 10);
+				}
+
 				setSelectedYear(prev => prev + 1);
 			} else {
 				setStartYear(prev => prev + 10);
 			}
 		},
-		[contentType, selectedMonth],
+		[contentType, selectedMonth, selectedYear],
 	);
 
 	const handleSelectDate = value => () => { setSelectedDate(value); };
