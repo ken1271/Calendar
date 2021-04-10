@@ -26,6 +26,16 @@ const DayItem = styled(Item)`
 	width: 28px;
 	height: 28px;
 	font-weight: 600;
+
+	@media ${props => props.theme.device.smTablet} {
+		width: 36px;
+		height: 36px;
+	}
+
+	@media ${props => props.theme.device.mobile} {
+		width: 44px;
+		height: 44px;
+	}
 `;
 
 const DateItem = styled(Item)`
@@ -35,6 +45,16 @@ const DateItem = styled(Item)`
 	${props => !props.isCurrentMonth && disabledStyle};
 	${props => props.isToday && activeStyle};
 	${props => props.isSelected && selectedStyle};
+
+	@media ${props => props.theme.device.smTablet} {
+		width: 36px;
+		height: 36px;
+	}
+
+	@media ${props => props.theme.device.mobile} {
+		width: 44px;
+		height: 44px;
+	}
 `;
 
 const getDateArr = ({ date, month, year }) => {

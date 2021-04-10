@@ -14,4 +14,12 @@ export const Item = styled.div`
 	justify-content: center;
 	align-items: center;
 	font-size: 14px;
+
+	@media ${props => props.theme.device.smTablet} {
+		font-size: 16px;
+	}
+
+	@media ${props => props.theme.device.mobile} {
+		font-size: 20px;
+	}
 `;

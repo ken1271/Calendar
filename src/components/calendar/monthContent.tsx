@@ -21,6 +21,16 @@ const MonthItem = styled(Item)`
 	cursor: pointer;
 	${props => props.isThisMonth && activeStyle};
 	${props => props.isSelected && selectedStyle};
+
+	@media ${props => props.theme.device.smTablet} {
+		width: 52px;
+		height: 52px;
+	}
+
+	@media ${props => props.theme.device.mobile} {
+		width: 60px;
+		height: 60px;
+	}
 `;
 
 interface IMonthContent {

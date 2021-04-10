@@ -18,10 +18,18 @@ const HeaderContent = styled.div`
 	padding: 4px 8px;
 	border-radius: 4px;
 	margin: 0 8px;
-	font-size: 14px;
+	font-size: 16px;
 	font-weight: 600;
 	background: #f2f2f2;
 	cursor: pointer;
+
+	@media ${props => props.theme.device.smTablet} {
+		font-size: 20px;
+	}
+
+	@media ${props => props.theme.device.mobile} {
+		font-size: 24px;
+	}
 `;
 
 const StyledArrowLeft = styled(ArrowLeftIcon)`

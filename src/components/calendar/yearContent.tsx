@@ -21,6 +21,16 @@ const YearItem = styled(Item)`
 	${props => !props.inRange && disabledStyle};
 	${props => props.isThisYear && activeStyle};
 	${props => props.isSelected && props.inRange && selectedStyle};
+
+	@media ${props => props.theme.device.smTablet} {
+		width: 52px;
+		height: 52px;
+	}
+
+	@media ${props => props.theme.device.mobile} {
+		width: 60px;
+		height: 60px;
+	}
 `;
 
 const getYearArr = startYear => {
