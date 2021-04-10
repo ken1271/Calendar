@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../styles/globals.css';
+import '@src/styles/global.css';
 
 interface IMyApp {
 	Component: () => JSX.Element;
