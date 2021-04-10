@@ -1,7 +1,16 @@
-import '../styles/globals.css'
+import React from 'react';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import '../styles/globals.css';
+
+interface IMyApp {
+	Component: () => JSX.Element;
+	pageProps: {
+		[x:string]: string | number;
+	};
 }
 
-export default MyApp
+const MyApp = ({ Component, pageProps }: IMyApp): JSX.Element => (
+	<Component {...pageProps} />
+);
+
+export default MyApp;

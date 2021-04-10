@@ -1,7 +1,9 @@
+import React from 'react';
+
 import Calendar from '@src/components/calendar';
 
-export default function Home() {
-	return (
-		<Calendar />
-	);
-};
+const Home = (): JSX.Element => (
+	<Calendar />
+);
+
+export default Home;
