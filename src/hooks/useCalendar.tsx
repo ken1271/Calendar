@@ -39,7 +39,9 @@ const useCalendar = (): IUseCalendar => {
 	const handlePrevClick = useCallback(
 		() => {
 			if (contentType === DATE) {
+				// Set month and year to last month and previous year if current month is January.
 				if (selectedMonth === 1) {
+					// Update start year if previous year is not in current year range.
 					if ((selectedYear % 10) === 0) {
 						setStartYear(prev => prev - 10);
 					}
@@ -49,6 +51,7 @@ const useCalendar = (): IUseCalendar => {
 					setSelectedMonth(prev => prev - 1);
 				}
 			} else if (contentType === MONTH) {
+				// Update start year if previous year is not in current year range.
 				if ((selectedYear % 10) === 0) {
 					setStartYear(prev => prev - 10);
 				}
@@ -64,7 +67,9 @@ const useCalendar = (): IUseCalendar => {
 	const handleNextClick = useCallback(
 		() => {
 			if (contentType === DATE) {
+				// Set month and year to first month and next year if current month is December.
 				if (selectedMonth === 12) {
+					// Update start year if next year is not in current year range.
 					if ((selectedYear % 10) === 9) {
 						setStartYear(prev => prev + 10);
 					}
@@ -74,6 +79,7 @@ const useCalendar = (): IUseCalendar => {
 					setSelectedMonth(prev => prev + 1);
 				}
 			} else if (contentType === MONTH) {
+				// Update start year if next year is not in current year range.
 				if ((selectedYear % 10) === 9) {
 					setStartYear(prev => prev + 10);
 				}
